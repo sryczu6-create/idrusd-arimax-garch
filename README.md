@@ -54,4 +54,4 @@ If you use this code or data, please cite:
 
 > Lobo, S. Y., Syam, R., & Sanusi, W. (2026). Forecasting the IDR/USD exchange
 > rate using an ARIMAX-GARCH model with macroeconomic exogenous variables.
-> [Journal name, volume(issue), pages.]
+> 
