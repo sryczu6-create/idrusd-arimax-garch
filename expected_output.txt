@@ -1,0 +1,231 @@
+======================================================================
+DATA SUMMARY
+======================================================================
+Aligned observations : 2003
+Sample period        : 2018-04-03  to  2026-07-27
+Max fx               : 18171  on 2026-06-08
+Min fx               : 13612  on 2020-01-27
+
+======================================================================
+TABLE 1  Unit-root tests (p-values)
+======================================================================
+Series              ADF lvl   PP lvl    ADF d     PP d   Order
+log(fx)              0.6641   0.6885   0.0000   0.0000    I(1)
+Federal Funds        0.8531   0.8571   0.0000   0.0000    I(1)
+BI Rate              0.4281   0.7380   0.0000   0.0000    I(1)
+CPI                  0.9669   0.9749   0.0000   0.0000    I(1)
+
+======================================================================
+TABLE 2  ARIMAX(2)-GARCH(1,1) estimates (representative window)
+======================================================================
+                          AR-X - GARCH Model Results                          
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.025
+Mean Model:                      AR-X   Adj. R-squared:                  0.020
+Vol Model:                      GARCH   Log-Likelihood:               -326.507
+Distribution:                  Normal   AIC:                           671.015
+Method:            Maximum Likelihood   BIC:                           715.167
+                                        No. Observations:                  998
+Date:                Thu, Aug 27 2026   Df Residuals:                      992
+Time:                        04:46:13   Df Model:                            6
+                                 Mean Model                                 
+============================================================================
+                 coef    std err          t      P>|t|      95.0% Conf. Int.
+----------------------------------------------------------------------------
+Const          0.0278  1.022e-02      2.724  6.449e-03 [7.808e-03,4.786e-02]
+y[1]           0.1134  3.453e-02      3.284  1.024e-03   [4.571e-02,  0.181]
+y[2]          -0.1137  3.556e-02     -3.197  1.390e-03  [ -0.183,-4.398e-02]
+x0            -0.3617      0.255     -1.418      0.156     [ -0.862,  0.138]
+x1             0.3503      0.283      1.238      0.216     [ -0.204,  0.905]
+x2             0.0892      0.165      0.540      0.589     [ -0.234,  0.413]
+                               Volatility Model                              
+=============================================================================
+                 coef    std err          t      P>|t|       95.0% Conf. Int.
+-----------------------------------------------------------------------------
+omega      5.9838e-03  3.679e-03      1.627      0.104 [-1.226e-03,1.319e-02]
+alpha[1]       0.0948  3.422e-02      2.768  5.632e-03    [2.767e-02,  0.162]
+beta[1]        0.8600  5.049e-02     17.033  4.638e-65      [  0.761,  0.959]
+=============================================================================
+
+Covariance estimator: robust
+
+Residual diagnostics (standardized residuals):
+  Ljung-Box(20) p = 0.238   ARCH-LM p = 0.538   Jarque-Bera p = 4.9e-94
+
+2003 obs -> 1004 rolling windows
+  100/1004
+  200/1004
+  300/1004
+  400/1004
+  500/1004
+  600/1004
+  700/1004
+  800/1004
+  900/1004
+  1000/1004
+
+=== Table 2B: cross-window coefficient summary ===
+           mean_coef  median_coef  sd_coef  pct_positive  mean_pval   pct_sig
+param                                                                        
+Const         0.0097       0.0102   0.0090       79.5817     0.4281   17.7291
+logret[1]     0.1237       0.1215   0.0147      100.0000     0.0015  100.0000
+logret[2]    -0.0637      -0.0724   0.0498       14.7410     0.2080   51.0956
+dFFR         -0.2546      -0.3040   0.1427        4.7809     0.2868    0.0000
+dBI           0.5100       0.5248   0.2015       96.2151     0.1600   42.7291
+dCPI          0.0563       0.0574   0.0370       93.0279     0.5821    0.0000
+omega         0.0051       0.0043   0.0027      100.0000     0.2360    0.0000
+alpha[1]      0.0958       0.0937   0.0312      100.0000     0.0817   48.0080
+beta[1]       0.8557       0.8601   0.0359      100.0000     0.0000  100.0000
+
+Macro regressors significant at 5% in 0.0-42.7% of windows (chance ~5%).
+/usr/local/lib/python3.11/dist-packages/statsmodels/tsa/base/tsa_model.py:473: ValueWarning: A date index has been provided, but it has no associated frequency information and so will be ignored when e.g. forecasting.
+  self._init_dates(dates, freq)
+
+======================================================================
+JOHANSEN COINTEGRATION TEST
+======================================================================
+Observations : 2004
+Variables    : ['logX', 'ffr', 'bi', 'cpi']
+Lag (AIC)    : 2   (k_ar_diff = 1)
+
+TRACE TEST
+r           stat     cv90%     cv95%     cv99%   decision (5%)
+0          70.14     44.49     47.85     54.68   reject H0
+1          13.11     27.07     29.80     35.46   fail to reject
+2           1.34     13.43     15.49     19.93   fail to reject
+3           0.02      2.71      3.84      6.63   fail to reject
+
+MAX-EIGENVALUE TEST
+r           stat     cv90%     cv95%     cv99%   decision (5%)
+0          57.03     25.12     27.59     32.72   reject H0
+1          11.77     18.89     21.13     25.86   fail to reject
+2           1.32     12.30     14.26     18.52   fail to reject
+3           0.02      2.71      3.84      6.63   fail to reject
+
+Cointegration rank (trace, 5%): r = 1
+
+======================================================================
+TABLE 3  Point-forecast accuracy
+======================================================================
+
+Horizon h = 1
+  rw           MAE=   41.14   RMSE=   55.98   MAPE= 0.2586
+  rw_drift     MAE=   40.98   RMSE=   55.92   MAPE= 0.2577
+  arima        MAE=   40.89   RMSE=   55.44   MAPE= 0.2571
+  arimax       MAE=   40.89   RMSE=   55.43   MAPE= 0.2571
+  arimax_ecm   MAE=   41.12   RMSE=   55.65   MAPE= 0.2586
+
+Horizon h = 5
+  rw           MAE=   99.13   RMSE=  129.93   MAPE= 0.6234
+  rw_drift     MAE=   97.53   RMSE=  129.39   MAPE= 0.6140
+  arima        MAE=   97.46   RMSE=  129.05   MAPE= 0.6138
+  arimax       MAE=   97.45   RMSE=  129.03   MAPE= 0.6137
+  arimax_ecm   MAE=  100.69   RMSE=  131.50   MAPE= 0.6337
+
+Horizon h = 10
+  rw           MAE=  148.63   RMSE=  189.97   MAPE= 0.9354
+  rw_drift     MAE=  145.60   RMSE=  188.46   MAPE= 0.9176
+  arima        MAE=  144.81   RMSE=  187.28   MAPE= 0.9132
+  arimax       MAE=  144.83   RMSE=  187.26   MAPE= 0.9133
+  arimax_ecm   MAE=  149.78   RMSE=  193.16   MAPE= 0.9443
+
+Horizon h = 20
+  rw           MAE=  215.73   RMSE=  277.59   MAPE= 1.3575
+  rw_drift     MAE=  208.89   RMSE=  273.08   MAPE= 1.3178
+  arima        MAE=  208.36   RMSE=  270.92   MAPE= 1.3157
+  arimax       MAE=  208.35   RMSE=  270.99   MAPE= 1.3156
+  arimax_ecm   MAE=  216.52   RMSE=  282.44   MAPE= 1.3643
+
+Horizon h = 60
+  rw           MAE=  419.04   RMSE=  501.28   MAPE= 2.6089
+  rw_drift     MAE=  383.60   RMSE=  471.87   MAPE= 2.4021
+  arima        MAE=  381.42   RMSE=  471.36   MAPE= 2.3927
+  arimax       MAE=  382.53   RMSE=  472.71   MAPE= 2.3995
+  arimax_ecm   MAE=  397.57   RMSE=  480.89   MAPE= 2.4878
+
+N forecasts per horizon: {1: 1003, 5: 999, 10: 994, 20: 984, 60: 944}
+
+==============================================================================
+TABLE 4 & 5  Clark-West on LOG-RETURN errors (primary, as reported)
+==============================================================================
+big model         vs               h     N    t_CW       p  RMSE gap%   better?
+ARIMAX-GARCH      RW               1  1003    4.01   0.000      +0.98       yes
+ARIMAX-GARCH      RW               5   999    1.94   0.026      +0.47       yes
+ARIMAX-GARCH      RW              10   994    1.91   0.028      +0.98       yes
+ARIMAX-GARCH      RW              20   984    1.59   0.056      +1.51       yes
+ARIMAX-GARCH      RW              60   944    1.33   0.092      +3.56       yes
+ARIMAX-GARCH      RW-drift         1  1003   14.73   0.000      +0.84       yes
+ARIMAX-GARCH      RW-drift         5   999   10.24   0.000      -0.01        NO
+ARIMAX-GARCH      RW-drift        10   994    7.77   0.000      +0.12       yes
+ARIMAX-GARCH      RW-drift        20   984    5.99   0.000      -0.06        NO
+ARIMAX-GARCH      RW-drift        60   944    5.14   0.000      -0.57        NO
+ARIMAX-GARCH      ARIMA-GARCH      1  1003    1.48   0.069      +0.02       yes
+ARIMAX-GARCH      ARIMA-GARCH      5   999    0.72   0.237      +0.02       yes
+ARIMAX-GARCH      ARIMA-GARCH     10   994    0.19   0.426      +0.01       yes
+ARIMAX-GARCH      ARIMA-GARCH     20   984   -0.34   0.632      -0.03        NO
+ARIMAX-GARCH      ARIMA-GARCH     60   944   -1.26   0.897      -0.29        NO
+ARIMAX-ECM-GARCH  RW               1  1003   14.76   0.000      +0.63       yes
+ARIMAX-ECM-GARCH  RW               5   999   10.53   0.000      -1.29        NO
+ARIMAX-ECM-GARCH  RW              10   994    8.01   0.000      -1.84        NO
+ARIMAX-ECM-GARCH  RW              20   984    6.35   0.000      -2.16        NO
+ARIMAX-ECM-GARCH  RW              60   944    5.72   0.000      +1.06       yes
+ARIMAX-ECM-GARCH  RW-drift         1  1003    3.12   0.001      +0.48       yes
+ARIMAX-ECM-GARCH  RW-drift         5   999    0.49   0.312      -1.77        NO
+ARIMAX-ECM-GARCH  RW-drift        10   994    0.61   0.269      -2.72        NO
+ARIMAX-ECM-GARCH  RW-drift        20   984    0.78   0.218      -3.80        NO
+ARIMAX-ECM-GARCH  RW-drift        60   944    1.07   0.142      -3.19        NO
+ARIMAX-ECM-GARCH  ARIMA-GARCH      1  1003   14.87   0.000      -0.35        NO
+ARIMAX-ECM-GARCH  ARIMA-GARCH      5   999   10.42   0.000      -1.74        NO
+ARIMAX-ECM-GARCH  ARIMA-GARCH     10   994    7.79   0.000      -2.84        NO
+ARIMAX-ECM-GARCH  ARIMA-GARCH     20   984    5.95   0.000      -3.77        NO
+ARIMAX-ECM-GARCH  ARIMA-GARCH     60   944    5.00   0.000      -2.90        NO
+ARIMAX-ECM-GARCH  ARIMAX-GARCH     1  1003   14.87   0.000      -0.36        NO
+ARIMAX-ECM-GARCH  ARIMAX-GARCH     5   999   10.43   0.000      -1.76        NO
+ARIMAX-ECM-GARCH  ARIMAX-GARCH    10   994    7.78   0.000      -2.85        NO
+ARIMAX-ECM-GARCH  ARIMAX-GARCH    20   984    5.93   0.000      -3.73        NO
+ARIMAX-ECM-GARCH  ARIMAX-GARCH    60   944    4.96   0.000      -2.60        NO
+
+==============================================================================
+ROBUSTNESS   Clark-West on LEVEL errors
+==============================================================================
+big model         vs               h     N    t_CW       p  RMSE gap%   better?
+ARIMAX-GARCH      RW               1  1003    4.01   0.000      +0.98       yes
+ARIMAX-GARCH      RW               5   999    2.25   0.012      +0.69       yes
+ARIMAX-GARCH      RW              10   994    2.25   0.012      +1.43       yes
+ARIMAX-GARCH      RW              20   984    1.95   0.025      +2.38       yes
+ARIMAX-GARCH      RW              60   944    1.63   0.052      +5.70       yes
+ARIMAX-GARCH      RW-drift         1  1003   14.62   0.000      +0.88       yes
+ARIMAX-GARCH      RW-drift         5   999   10.38   0.000      +0.28       yes
+ARIMAX-GARCH      RW-drift        10   994    7.97   0.000      +0.64       yes
+ARIMAX-GARCH      RW-drift        20   984    6.11   0.000      +0.76       yes
+ARIMAX-GARCH      RW-drift        60   944    5.17   0.000      -0.18        NO
+ARIMAX-GARCH      ARIMA-GARCH      1  1003    1.45   0.074      +0.02       yes
+ARIMAX-GARCH      ARIMA-GARCH      5   999    0.68   0.248      +0.02       yes
+ARIMAX-GARCH      ARIMA-GARCH     10   994    0.27   0.393      +0.01       yes
+ARIMAX-GARCH      ARIMA-GARCH     20   984   -0.27   0.608      -0.03        NO
+ARIMAX-GARCH      ARIMA-GARCH     60   944   -1.33   0.909      -0.28        NO
+ARIMAX-ECM-GARCH  RW               1  1003   14.63   0.000      +0.59       yes
+ARIMAX-ECM-GARCH  RW               5   999   10.75   0.000      -1.21        NO
+ARIMAX-ECM-GARCH  RW              10   994    8.33   0.000      -1.68        NO
+ARIMAX-ECM-GARCH  RW              20   984    6.54   0.000      -1.74        NO
+ARIMAX-ECM-GARCH  RW              60   944    5.43   0.000      +4.07       yes
+ARIMAX-ECM-GARCH  RW-drift         1  1003    3.09   0.001      +0.49       yes
+ARIMAX-ECM-GARCH  RW-drift         5   999    0.58   0.281      -1.63        NO
+ARIMAX-ECM-GARCH  RW-drift        10   994    0.71   0.240      -2.50        NO
+ARIMAX-ECM-GARCH  RW-drift        20   984    0.87   0.193      -3.43        NO
+ARIMAX-ECM-GARCH  RW-drift        60   944    1.17   0.121      -1.91        NO
+ARIMAX-ECM-GARCH  ARIMA-GARCH      1  1003   14.71   0.000      -0.37        NO
+ARIMAX-ECM-GARCH  ARIMA-GARCH      5   999   10.62   0.000      -1.89        NO
+ARIMAX-ECM-GARCH  ARIMA-GARCH     10   994    8.13   0.000      -3.14        NO
+ARIMAX-ECM-GARCH  ARIMA-GARCH     20   984    6.20   0.000      -4.25        NO
+ARIMAX-ECM-GARCH  ARIMA-GARCH     60   944    5.21   0.000      -2.02        NO
+ARIMAX-ECM-GARCH  ARIMAX-GARCH     1  1003   14.72   0.000      -0.39        NO
+ARIMAX-ECM-GARCH  ARIMAX-GARCH     5   999   10.62   0.000      -1.91        NO
+ARIMAX-ECM-GARCH  ARIMAX-GARCH    10   994    8.12   0.000      -3.15        NO
+ARIMAX-ECM-GARCH  ARIMAX-GARCH    20   984    6.18   0.000      -4.22        NO
+ARIMAX-ECM-GARCH  ARIMAX-GARCH    60   944    5.17   0.000      -1.73        NO
+
+Figures saved: figure1_level.png, figure2_returns.png, figure3_forecasts.png, figure4_mae_reduction.png, fig_macro_pvalues.png
+vs driftless RW : [0.6, 1.7, 2.6, 3.4, 8.7]
+vs RW-with-drift: [0.2, 0.1, 0.5, 0.3, 0.3]
+vs ARIMA (macro): [0.0, 0.0, -0.0, 0.0, -0.3]

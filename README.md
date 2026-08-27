@@ -1,50 +1,74 @@
-# Forecasting the Rupiah Exchange Rate Against a Drift-Adjusted Benchmark
+# Leakage-free rolling-window evaluation of macroeconomic models for IDR/USD forecasting
 
-Replication code and data for the paper *"Forecasting the Rupiah Exchange Rate
-Against a Drift-Adjusted Benchmark"* (Lobo, Syam, & Sanusi). The study forecasts
-the daily Indonesian rupiah to US dollar (IDR/USD) exchange rate with an
-ARIMAX(2)-GARCH(1,1) model and evaluates it, under a leakage-free fixed-size
-rolling window, against three benchmarks: a driftless random walk, a random walk
-with drift, and a nested ARIMA-GARCH control.
+Replication code for *"Evaluasi Rolling-Window Model Makroekonomi untuk Peramalan
+Nilai Tukar Rupiah"* — ARIMAX(2)-GARCH(1,1) vs a nested ARIMA-GARCH control, a
+random walk with and without drift, and an ARIMAX-ECM-GARCH extension, all under a
+strictly leakage-free rolling-window protocol.
 
-## Repository contents
+## Repository layout
 
-| File | Description |
-|------|-------------|
-| `Forecasting_IDR_USD_with_ARIMAX_GARCH.ipynb` | Complete analysis notebook: preprocessing, unit-root tests (Table II), Johansen cointegration test, model estimation and diagnostics (Table III), leakage-free rolling-window forecasts for the four models, Diebold-Mariano tests with the HLN correction (Tables IV and V), the random-walk-with-drift robustness check, and Figures 1-4. |
-| `merged_data_clean.csv` | Daily aligned dataset: `date`, `fx` (JISDOR IDR/USD), `ffr` (Federal Funds Rate), `bi` (BI Rate), `cpi` (Indonesian CPI). |
-| `requirements.txt` | Python dependencies. |
-| `LICENSE` | License for the code. |
+```
+forecast_idrusd_arimax_garch.py   # the whole analysis, one script
+merged_data_clean.csv             # input data (date, fx, ffr, cpi, bi)
+requirements.txt                  # Python dependencies
+expected_output.txt               # reference console output (for comparison)
+README.md
+.gitignore
+```
 
-## Data sources
+## What it reproduces
 
-The daily IDR/USD rate is the Jakarta Interbank Spot Dollar Rate (JISDOR)
-published by Bank Indonesia. The Federal Funds Rate is from the Federal Reserve
-Economic Data (FRED) service (series DFEDTARU). The Indonesian Consumer Price
-Index is reconstructed from Statistics Indonesia (BPS) monthly inflation
-releases. The BI Rate is compiled from Bank Indonesia announcements. The sample
-covers 2 April 2018 to 27 July 2026. Exogenous series are aligned to the daily
-frequency by last-observation-carried-forward, as described in the paper.
+| Output | Section in the script |
+|--------|-----------------------|
+| Table 1 — ADF & Phillips-Perron unit-root tests | §3 |
+| Table 2 — representative-window estimates + residual diagnostics | §4 |
+| Table 2B — cross-window coefficient distribution + macro p-value figure | §4B |
+| Johansen cointegration test | §6 |
+| Table 3 — point-forecast accuracy (MAE / RMSE / MAPE) | §8 |
+| Tables 4 & 5 — Clark-West MSPE-adjusted tests (log-return space) | §9 |
+| Figures 1–4 | §10 |
 
-## How to reproduce
+Forecast accuracy is compared with the **Clark-West** MSPE-adjusted test — the
+appropriate one-sided statistic for nested models — with HAC (Newey-West, lag = h−1)
+standard errors for multi-step overlap. Tables 4 & 5 are reported on log-return
+errors (retransformation-free); the same test on level errors is printed as a
+robustness appendix.
 
-1. Install dependencies (Python 3.11 recommended):
+## Anti-leakage design
 
-   ```
-   pip install -r requirements.txt
-   ```
+- Model orders (AR(2), GARCH(1,1)) are frozen in advance; only the coefficients are
+  re-estimated on each rolling window.
+- Every window uses only observations up to the forecast origin.
+- For h > 1, exogenous variables are held at their last known level at the origin, so
+  their future first differences are zero — no future macro value is ever read.
 
-2. Open the notebook and run all cells top to bottom (Jupyter, or Google Colab):
+## Data
 
-   ```
-   jupyter notebook "Forecasting_IDR_USD_with_ARIMAX_GARCH.ipynb"
-   ```
+`merged_data_clean.csv`, daily, 2 April 2018 – 27 July 2026 (2004 rows):
 
-   The notebook reads `merged_data_clean.csv` from the same folder and reproduces
-   Tables II-V, the Johansen cointegration test, the robustness check, and
-   Figures 1-4.
+| Column | Description | Source |
+|--------|-------------|--------|
+| `date` | trading day | — |
+| `fx`   | IDR/USD JISDOR rate | Bank Indonesia |
+| `ffr`  | Federal Funds Rate | FRED, series `DFEDTARU` |
+| `cpi`  | Indonesia CPI / IHK | BPS |
+| `bi`   | BI policy rate | Bank Indonesia |
 
-All forecasts are strictly out-of-sample: at each rolling origin the model is
-re-estimated using only past observations, and the exogenous regressors are held
-at their last observed level over the forecast horizon, so no future information
-enters any forecast.
+## Run
+
+```bash
+pip install -r requirements.txt
+python forecast_idrusd_arimax_garch.py
+```
+
+All tables print to stdout; figures (`figure1_level.png` … `figure4_mae_reduction.png`,
+`fig_macro_pvalues.png`) and `table_2b.csv` are written to the working directory.
+Full run takes ~3 minutes (1003 rolling windows, three models re-fit per window).
+A reference console log is in `expected_output.txt`.
+
+Tested with numpy 2.4, pandas 3.0, scipy 1.16, statsmodels 0.14, arch 8.0.
+
+## License
+
+Not set yet — add a `LICENSE` file before publishing (the article is CC-BY-SA; MIT
+or CC-BY-SA are common choices for accompanying code).
