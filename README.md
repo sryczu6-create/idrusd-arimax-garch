@@ -1,6 +1,6 @@
 # Leakage-free rolling-window evaluation of macroeconomic models for IDR/USD forecasting
 
-Replication code for *"Evaluasi Rolling-Window Model Makroekonomi untuk Peramalan
+Code for *"Evaluasi Rolling-Window Model Makroekonomi untuk Peramalan
 Nilai Tukar Rupiah"* — ARIMAX(2)-GARCH(1,1) vs a nested ARIMA-GARCH control, a
 random walk with and without drift, and an ARIMAX-ECM-GARCH extension, all under a
 strictly leakage-free rolling-window protocol.
