@@ -68,7 +68,3 @@ A reference console log is in `expected_output.txt`.
 
 Tested with numpy 2.4, pandas 3.0, scipy 1.16, statsmodels 0.14, arch 8.0.
 
-## License
-
-Not set yet — add a `LICENSE` file before publishing (the article is CC-BY-SA; MIT
-or CC-BY-SA are common choices for accompanying code).
