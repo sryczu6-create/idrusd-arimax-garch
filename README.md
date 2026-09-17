@@ -1,6 +1,6 @@
 # Leakage-free rolling-window evaluation of an ARIMAX(2)-GARCH(1,1) model for the IDR/USD exchange rate
 
-Replication code and data for *"Rolling-Window Benchmarking of Macroeconomic Models
+Code and data for *"Rolling-Window Benchmarking of Macroeconomic Models
 for Rupiah Exchange Rate Forecasting."* The analysis forecasts the daily JISDOR
 IDR/USD rate with an ARIMAX(2)-GARCH(1,1) model using the Federal Funds Rate (FFR),
 the Bank Indonesia policy rate (BI), and the Indonesian CPI as exogenous variables,
