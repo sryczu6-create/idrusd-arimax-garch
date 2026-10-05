@@ -16,7 +16,7 @@ fixed-size rolling-window protocol.
 | `IDRUSD_ARIMAX_GARCH.ipynb` | Main notebook with outputs. Reproduces every table and figure in the article, top to bottom. |
 | `forecast_idrusd_arimax_garch.py` | Script export of the same notebook. |
 | `merged_data_clean.csv` | Daily data: `date, fx, ffr, cpi, bi` (2 April 2018 to 27 July 2026, 2,004 observations). |
-| `figures/` | Figures 1 to 6 of the article (600 dpi). |
+| `figure1.png` to `figure6.png` | Figures 1 to 6 of the article (600 dpi). |
 | `requirements.txt` | Python dependencies with the exact versions used. |
 | `LICENSE` | MIT license. |
 
